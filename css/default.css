@@ -1,0 +1,94 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+
+html {
+    background-image: url(/images/white_texture.png);
+    overflow-y: scroll;
+}
+
+body {
+    max-width: 60em;
+    background-color: white;
+    color: black;
+    margin:0 auto;
+    font-family: verdana, arial, sans-serif;
+}
+
+
+h1 {
+    background-color: black;
+    text-align: center;
+    padding: 0.5em;
+    font-size: 250%;
+
+}
+
+h1 a {
+    color: white;
+    font-size: 100%;
+    text-decoration: none;
+}
+
+.content {
+    padding: 1em;
+}
+
+h2, h3 {
+    margin: 0.5em 0;
+}
+
+.nav {
+    text-align: center;
+}
+
+.nav li {
+    list-style-type: none;
+    display: inline-block;
+    padding: 0 1em;
+}
+
+.eventinfo {
+    padding: 2em;
+    border: 2px solid red;
+    margin: 1em;
+    font-size: 200%;
+}
+
+p {
+    margin: 1em 0;
+}
+
+th {
+    text-align: center;
+}
+
+.images td {
+    text-align: center;
+}
+
+td {
+    padding: 0.5em;
+    width: 50%;
+}
+
+ul {
+    margin-left: 2em;
+}
+
+pre {
+    margin-left: 2em;
+}
+
+iframe {
+    display: block;
+    margin: 1em auto;
+    border: 0;
+}
+
+.footer {
+    border-top: 1px solid black;
+    text-align: center;
+}
