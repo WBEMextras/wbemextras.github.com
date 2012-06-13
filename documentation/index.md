@@ -1,11 +1,7 @@
-= The SIM Installation and Logging (similar) project =
-:author: Gratien D'haese
-:data-uri:
-:encoding: UTF-8
-:icons:
-:iconsdir: /usr/share/asciidoc/images/icons
-:showcomments:
-:toc:
+---
+layout: default
+title: WBEMextras documentation
+---
 
 == Introduction
 
