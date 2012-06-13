@@ -14,7 +14,7 @@ The question may arise why do we need some scripts to install software on HP-UX 
 
 During a migration project of ISEE towards HPSIM on HP-UX systems in 2009 we were faced with various types of problems, which we were able to group into the following sections:
 
-.Groups are:
+Groups are:
 - Software installation problems, e.g. missing pre-requisite patches, or other software components required. Also, during upgrades we were faced with backward requirements which we thought these requirements were already fulfilled.
 - Configuration problems whereby in HPSIM it was not possible to make a successful WBEM event subscription, or WEBES subscription did not happen automatically.
 - Operational problems which lead to unmonitored HP-UX systems where we were in the opinion everything worked fine. The most common issues were with cimprovider daemons that took 100% of CPUs, or agents that were in a degraded state, or sometimes our non-privileged account (wbem) became locked on the system. All these various types of (small) issues lead to the fact that a HP-UX system cannot send out an alert to the HP SIM server and therefore no automatic incident could be created at HP.

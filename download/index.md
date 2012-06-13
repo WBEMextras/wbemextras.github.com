@@ -11,5 +11,5 @@ The various stable release are available from the
 ## Download development snapshot ##
 Get a private copy through:
 
-    ```git clone git@github.com:WBEMextras/WBEMextras.git```
+    `git clone git@github.com:WBEMextras/WBEMextras.git`
 
