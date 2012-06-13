@@ -3,14 +3,14 @@ layout: default
 title: WBEMextras documentation
 ---
 
-== Introduction
+## Introduction ##
 
 This document will explain the scripts developed to install, upgrade and verify the health check of HP System Insight Management (HPSIM) Insight Remote Support Advanced (IRSA) on HP-UX based systems.
 
 HP-UX systems use next to SNMP to send traps to the HPSIM server, also the WBEM protocols via the so called cimproviders to comminucate with the HPSIM server about their health status. The System Fault Management (SFM) software is used to send hardware failure reports via the HPSIM server and the IRSA plug-in (running on top of the HPSIM server) to the HP Support centre in an automatic way with any user intervention.
 
 However, the HPSIM IRSA software components are known to be very problematic to install and/or upgrade on HP-UX systems because of the many inter-dependencies [<<x3,3>>].
-The question may arise why do we need some scripts to install software on HP-UX systems as +/usr/sbin/swinstall+ command does this already?
+The question may arise why do we need some scripts to install software on HP-UX systems as `/usr/sbin/swinstall` command does this already?
 
 During a migration project of ISEE towards HPSIM on HP-UX systems in 2009 we were faced with various types of problems, which we were able to group into the following sections:
 
@@ -22,15 +22,18 @@ During a migration project of ISEE towards HPSIM on HP-UX systems in 2009 we wer
 To assist us in getting the HPSIM-IRSA software properly installed we designed a script to accomplish this in a structured way. Upgrading existing HP-UX systems with newer releases of HPSIM-IRSA components was also a challenge and therefore, we wrote also a script to assist in task. To make sure all the software components are installed properly and configured according the rules we wrote a third script to check the HPSIM Healh status on the HP-UX systems.
 In the following chapters we will explain in detail all the scripts, software depot requirements, and the usage of them in detail.
 
-== The HP-UX Software Depots
+## The HP-UX Software Depots ##
+
 The scripts that will help us to install the HPSIM-IRSA software components on HP-UX systems must first be downloaded from either HP-UX Application CD-ROMs or from the HP Software Depot site [<<x1,1>>].
 The HP-UX Operating Systems in scope are HP-UX 11.11, HP-UX 11.23 and HP-UX 11.31. Older versions of HP-UX Operating System are not supported by HPSIM-IRSA anymore. If you wish you can download from the HP Software Depot site each software depot individually. In our depots we collected the following software depots.
 
 It would be nice that the collection of software depots could be made available as one big software depot, e.g. +irsa-1111.depot.gz+ and made available for download for usage.
 
-=== Software depot for HP-UX 11.11
+### Software depot for HP-UX 11.11 ###
+
 The versions of the software depots can vary over time. This list was made in January 2012.
-----
+
+````
   B9073BA                               B.11.11.09.02.00.07	HP-UX iCOD Instant Capacity (iCAP)
   EventMonitoring                       A.04.20.11.05		Event Monitoring Service
   FCProvider                            B.11.11.08		CIM/WBEM Provider for Fibre Channel HBAs
@@ -53,15 +56,18 @@ The versions of the software depots can vary over time. This list was made in Ja
   vParProvider                          B.11.11.01.06		vPar Provider - HP-UX
   EMS-KRMonitor                         A.11.11.05		EMS Kernel Resource Monitor
   WBEMextras                            A.01.00.04		HP WBEM Extras for HP-UX
-----
+````
+
 The above list contains two depots that are not available on the HP Software Depot site:
 
-1. The +RS-ACC+ depots are available from the HPSIM server (or Central Management Server) location +<dir>:\HP\Installers\UC\ACC\HPUX\+, and
-2. the +WBEMextras+ depot was made by us and will be explained in a seperate chapter.
+1. The `RS-ACC` depots are available from the HPSIM server (or Central Management Server) location `<dir>:\HP\Installers\UC\ACC\HPUX\`, and
+2. the `WBEMextras` depot was made by us and will be explained in a seperate chapter.
 
-=== Software depot for HP-UX 11.23
+### Software depot for HP-UX 11.23 ###
+
 The software depots for HP-UX 11.23 contains the following components:
-----
+
+````
   B9073BA                       B.11.23.10.00.00.11	HP-UX iCOD Instant Capacity (iCAP)
   CommonIO                      B.11.23.1102		Common IO Drivers
   EventMonitoring               A.04.20.23.06		Event Monitoring Service
@@ -91,17 +97,19 @@ The software depots for HP-UX 11.23 contains the following components:
   PHCO_34721                    1.0			killall(1M) cumulative patch
   PHCO_40382                    1.0			Cumulative IO Tree Provider patch
   WBEMextras                    A.01.00.04		HP WBEM Extras for HP-UX
-----
+````
+
 The above list contains two depots that are not available on the HP Software Depot site:
 
-1. The +RS-ACC+ depots are available from the HPSIM server (or Central Management Server) location +<dir>:\HP\Installers\UC\ACC\HPUX\+, and
-2. the +WBEMextras+ depot was made by us and will be explained in a seperate chapter, and
-3. the +WBEMpatches-1123+ are a bunch of patches downloaded from HP Support Center [<<x2,2>>], but we will explain the creation of this patch bundle seperately.
+1. The `RS-ACC` depots are available from the HPSIM server (or Central Management Server) location `<dir>:\HP\Installers\UC\ACC\HPUX\`, and
+2. the `WBEMextras` depot was made by us and will be explained in a seperate chapter, and
+3. the `WBEMpatches-1123` are a bunch of patches downloaded from HP Support Center [<<x2,2>>], but we will explain the creation of this patch bundle seperately.
 
+### Software depot for HP-UX 11.31 ###
 
-=== Software depot for HP-UX 11.31
 The software depots for HP-UX 11.31 contains the following components:
-----
+
+````
   B9073BA                       B.11.31.10.03.00.06	HP-UX iCOD Instant Capacity (iCAP)
   CommonIO                      B.11.31.1109		Common IO Drivers
   EventMonitoring               A.04.20.31.07		Event Monitoring Service
@@ -122,22 +130,24 @@ The software depots for HP-UX 11.31 contains the following components:
   PHCO_41483                    1.0			cumulative libipmimsg patch
   SysMgmtBase                   B.00.02.04.09		HP-UX Common System Management Enablers
   WBEMextras                    A.01.00.04		HP WBEM Extras for HP-UX
-----
+````
+
 The above list contains two depots that are not available on the HP Software Depot site:
 
-1. The +RS-ACC+ depots are available from the HPSIM server (or Central Management Server) location +<dir>:\HP\Installers\UC\ACC\HPUX\+, and
-2. the +WBEMextras+ depot was made by us and will be explained in a seperate chapter
+1. The `RS-ACC` depots are available from the HPSIM server (or Central Management Server) location `<dir>:\HP\Installers\UC\ACC\HPUX\`, and
+2. the `WBEMextras` depot was made by us and will be explained in a seperate chapter
 
+### Copying the software depots ###
 
-=== Copying the software depots
-The best place to copy the software depots is on the HP-UX Ignite server and foresee a file system with plenty of space (5 GBytes). Decide on a file system path name, e.g. +/var/opt/ignite/depots/GLOBAL/irsa+ and create the path as follow: 
+The best place to copy the software depots is on the HP-UX Ignite server and foresee a file system with plenty of space (5 GBytes). Decide on a file system path name, e.g. `/var/opt/ignite/depots/GLOBAL/irsa` and create the path as follow: 
 
-----
+````
 $ mkdir -m 755 -p /var/opt/ignite/depots/GLOBAL/irsa
-----
+````
 
-Under this path we can +swcopy+ our depot files downloaded from HP, e.g. for HP-UX 11.11 execute the following +swcopy+ command and verify with +swlist+ if the depot was successfully copied: 
-----
+Under this path we can +swcopy+ our depot files downloaded from HP, e.g. for HP-UX 11.11 execute the following `swcopy` command and verify with +swlist+ if the depot was successfully copied: 
+
+````
 $ swcopy -x enforce_dependencies=false -x mount_all_filesystems=false -x autoselect_dependencies=false \
          -s /depots/irsa-1111.depot \* @ /var/opt/ignite/depots/GLOBAL/irsa/11.11
 $ swlist -s /var/opt/ignite/depots/GLOBAL/irsa/11.11
@@ -163,12 +173,14 @@ $ swlist -s /var/opt/ignite/depots/GLOBAL/irsa/11.11
   vParProvider                          B.11.11.01.06		vPar Provider - HP-UX
   EMS-KRMonitor                         A.11.11.05		EMS Kernel Resource Monitor
   WBEMextras                            A.01.00.04		HP WBEM Extras for HP-UX
-----
+````
+
 We repeat these commands for HP-UX 11.23 and HP-UX 11.31 software depots.
 
 
-=== Creation of WBEMpatches-1123 patch depot
-Login on the HP Support centera [<<x2,2>>] (registration is required, but free of charge) and select _patch management_, _find a specfic patch_ and type in the following list of patches in the "search test" box, also select from the pull-down menus _Search by Patch ID_ and _OS revision_ "HP-UX 11.23", then finally click on the _Search_ button:
+### Creation of WBEMpatches-1123 patch depot ###
+
+Login on the HP Support centera [<<x2,2>>] (registration is required, but free of charge) and select *patch management*, *find a specfic patch* and type in the following list of patches in the "search test" box, also select from the pull-down menus *Search by Patch ID* and *OS revision* "HP-UX 11.23", then finally click on the *Search* button:
 
 - PHSS_41495
 - PHKL_34795
@@ -181,11 +193,11 @@ Login on the HP Support centera [<<x2,2>>] (registration is required, but free o
 - PHKL_36288
 - PHSS_42043
 
-The patches will be shown on the screen and select the most recent ones and click on the _Add to my patch list_ button. The patches can be downloaded by clicking on the _Download Selected_ button and select the _Download GZIP Package_ option and then the patch bundle will be downloaded and saved as +hpux_11.23_<random nr>.tgz+.
+The patches will be shown on the screen and select the most recent ones and click on the *Add to my patch list* button. The patches can be downloaded by clicking on the *Download Selected* button and select the *Download GZIP Package* option and then the patch bundle will be downloaded and saved as `hpux_11.23_<random nr>.tgz`.
 
 The following steps must be executed on an HP-UX system, the Operating System version is not relevant for these steps. We will extract the patches and create a patch depot of it:
 
-----
+````
 $ gunzip -c ../hpux_11.23_12131249.tgz | tar xf -
 $ ./create_depot_hpux.11.23 -i
 Depot name [/depots/WBEMpatches/depot]:
@@ -225,28 +237,34 @@ Copying PHSS_41495 into depot /depots/WBEMpatches/depot
 $ swlist -s $PWD/depot \*
 
   WBEMpatches-1123      B.2012.01.27   IRSA patch bundle for HP-UX 11.23
-----
-The +$PWD/depot+ is a directory containing all the patches, but we prefer to have a portable depot (is like a +tar+ archive) which can be easily moved to another HP-UX system via scp, e-mail or whatever means of transport. To accomplish this execute the following command:
-----
+````
+
+The `$PWD/depot` is a directory containing all the patches, but we prefer to have a portable depot (is like a `tar` archive) which can be easily moved to another HP-UX system via scp, e-mail or whatever means of transport. To accomplish this execute the following command:
+
+````
 $ swpackage -d $PWD/WBEMpatches-1123.depot -x target_type=tape -s $PWD/depot \*
 ...
        * Tape #1: CRC-32 checksum & size: 948628547 155484160
 
 $ cksum WBEMpatches-1123.depot
 948628547 155484160 WBEMpatches-1123.depot
-----
+````
+
 This patch bundle will afterwards be copied into the IRSA software depot of HP-UX 11.23, e.g.
-----
+
+````
 swcopy -x enforce_dependencies=false -x mount_all_filesystems=false -x autoselect_dependencies=false \
        -s $PWD/WBEMpatches/WBEMpatches-1123.depot \* @ /var/opt/ignite/depots/GLOBAL/irsa/11.23
-----
+````
 
-=== Maintaining the software depots
+### Maintaining the software depots ###
+
 Nothing is perfect, so at least on a quartely basis updates will be released by HP. Therefore, it is important to keep these software depots up to date. If needed, ask assistance at HP (they have trained consultants in-house who can do this task for you).
 It is key not to forget to keep the software depots in good health as these will be installed on the HP-UX managed nodes through out your organization. To avoid repeating the same exercises over and over again make sure that the source depots, on the Ignite/UX server, are in good shape.
 
-== The HPSIM configuration file HPSIM_irsa.conf
-The configuration file +/usr/local/etc/HPSIM_irsa.conf+, which can be placed in advance or will be created by the +HPSIM-Check-RSP-readiness.sh+ script (if it didn't exist yet). 
+## The HPSIM configuration file HPSIM_irsa.conf ##
+
+The configuration file `/usr/local/etc/HPSIM_irsa.conf`, which can be placed in advance or will be created by the `HPSIM-Check-RSP-readiness.sh` script (if it didn't exist yet). 
 
 .The important variables are:
 - *WbemUser=wbem* is the non-privileged user who will be used for cimprovider queries
@@ -259,7 +277,7 @@ The configuration file +/usr/local/etc/HPSIM_irsa.conf+, which can be placed in 
 - *ENCPW="6u2CMymnCznQo"* is the encrypted password of the wbem account. To create a new password use the command +openssl passwd -crypt+ and copy-paste the output in the configuration file.
 - *HpsmhAdminGroup="se"* contains the group name of the HP System Management Homepage. The wbem account will have this as a secondary group and as such can be used to login at the HP System Management Homepage interface with administrator rights. This useful to exchange SSL certificates between HPSMH and HPSIM.
 
-----
+````
 #################################################
 # ----- Configuration file HPSIM_irsa.conf -----#
 #       Date: 01 Feb 2012                       #
@@ -324,31 +342,37 @@ ENCPW="6u2CMymnCznQo"         # default password is "hpinvent" (without the doub
 # The HP System Management Homepage Admin Group (hpsmh is default setting)
 # The WbemUser will belong to this secondary group to allow access to HP SMH
 HpsmhAdminGroup="se"
-----
-== The SIM Installation and Loggings (similar) Scripts
-The scripts were developed to install, configure, upgrade and check the HPSIM IRSA related software on the HP-UX managed nodes. See it as an aid in getting these installation and configuration tasks done in a simple way. The only thing we need are the software depots which we already have installed (or copied) on our central Ignite/UX server and the first script +HPSIM-Check-RSP-readiness.sh+ and its accompying configuration file (albeit not required to have). 
+````
 
-We will discuss all the scripts in detail, but will start with the most import script and that is +HPSIM-Check-RSP-readiness.sh+ and secondly we will discuss the configuration file _HPSIM_irsa.conf_ in more detail. Afterwards, we will go over the +HPSIM-Upgrade-RSP.sh+ script and +HPSIM-Healthcheck.sh+ scripts. We still have one special script +restart_cim_sfm.sh+ which will be bundle in the WBEMextras depot and which is initiated via crontab.
+## The SIM Installation and Loggings (similar) Scripts ##
 
-=== The HPSIM-Check-RSP-readiness.sh script
-The easiest way to explain the HPSIM-Check-RSP-readiness.sh script is via the help output.
+The scripts were developed to install, configure, upgrade and check the HPSIM IRSA related software on the HP-UX managed nodes. See it as an aid in getting these installation and configuration tasks done in a simple way. The only thing we need are the software depots which we already have installed (or copied) on our central Ignite/UX server and the first script `HPSIM-Check-RSP-readiness.sh` and its accompying configuration file (albeit not required to have). 
 
-.The short usage output (*-?* option):
-----
+We will discuss all the scripts in detail, but will start with the most import script and that is `HPSIM-Check-RSP-readiness.sh` and secondly we will discuss the configuration file _HPSIM_irsa.conf_ in more detail. Afterwards, we will go over the `HPSIM-Upgrade-RSP.sh` script and `HPSIM-Healthcheck.sh` scripts. We still have one special script `restart_cim_sfm.sh` which will be bundle in the WBEMextras depot and which is initiated via crontab.
+
+### The HPSIM-Check-RSP-readiness.sh script ###
+
+The easiest way to explain the `HPSIM-Check-RSP-readiness.sh` script is via the help output.
+
+The short usage output (*-?* option):
+
+````
 ./HPSIM-Check-RSP-readiness.sh -?
 Usage: HPSIM-Check-RSP-readiness.sh [-vhpi] [-u <WbemUser>] [-g <HpsmhAdminGroup>] [-d IP:path] [-m <email1,email2>] \
        [-c <conf file>] [-s SimServer]
-----
-Some important knowledge you need to understand. The HPSIM WBEM communication between the HPSIM server (also known as the Central management Server, or abbreviated CMS) and the HP-UX managed node is done in a secure way via the Secure Socket Layer (SSL) and via Secure Shell (SSH). In particular when we use SSH we preferrably use a non-privelge user (non-root) and that is where the _WbemUser_ is used for (the *-u* option).
+````
 
-Once we start configuration part the _WbemUser_ will be created (if not yet existing) with a default password (hpinvent) or use option *-p* to be prompted for a password.
+Some important knowledge you need to understand. The HPSIM WBEM communication between the HPSIM server (also known as the Central management Server, or abbreviated CMS) and the HP-UX managed node is done in a secure way via the Secure Socket Layer (SSL) and via Secure Shell (SSH). In particular when we use SSH we preferrably use a non-privelge user (non-root) and that is where the *WbemUser* is used for (the *-u* option).
 
-Option *-g* might be required if you want the _WbemUser_ to be added to a second group *hpsmh* (the HP system management homepage group) which is needed to grant the _WbemUser_ administrator's rights within the HP system management homepage interface). In some organizations the administrator's group may be different.
+Once we start configuration part the *WbemUser* will be created (if not yet existing) with a default password (hpinvent) or use option *-p* to be prompted for a password.
 
-We already know the usage output of the +HPSIM-Check-RSP-readiness.sh+ script, but we can see more if we use the *-h* option instead.
+Option *-g* might be required if you want the _WbemUser_ to be added to a second group *hpsmh* (the HP system management homepage group) which is needed to grant the *WbemUser* administrator's rights within the HP system management homepage interface). In some organizations the administrator's group may be different.
 
-.The help output (-h option)
-----
+We already know the usage output of the `HPSIM-Check-RSP-readiness.sh` script, but we can see more if we use the *-h* option instead.
+
+The help output (-h option)
+
+````
 $ ./HPSIM-Check-RSP-readiness.sh -h
 NAME
   HPSIM-Check-RSP-readiness.sh - Install and configure IRSS/IRSA software on HP-UX 11i systems
@@ -417,11 +441,11 @@ IMPLEMENTATION
   Revision      UNKNOWN
   Author        Gratien D'haese
   Release Date  19-Jan-2012
+````
 
-----
-The *-c* option is used to point to a configuration file which will overrule the command arguments. If we do not use the *-c* the script will create a configuration file +/usr/local/etc/HPSIM_irsa.conf+ with the arguments given or with the default values. We find it a best practice to prepare a configuration file on-front to avoid mistakes and to guarantee consistency across the different scripts. We will discuss the configuration file a bit later.
+The *-c* option is used to point to a configuration file which will overrule the command arguments. If we do not use the *-c* the script will create a configuration file `/usr/local/etc/HPSIM_irsa.conf` with the arguments given or with the default values. We find it a best practice to prepare a configuration file on-front to avoid mistakes and to guarantee consistency across the different scripts. We will discuss the configuration file a bit later.
 
-The *-d* option defines the path where to software is stored and it combines the Ignite/UX server address (FQDN or IP address) and the absolute path to the software depots (without the HP-UX operating system version number). E.g.  +10.4.9.76:/var/opt/ignite/depots/GLOBAL/rsp/pre-req+ can be used as +swlist -s 10.4.9.76:/var/opt/ignite/depots/GLOBAL/rsp/pre-req/*11.11*+
+The *-d* option defines the path where to software is stored and it combines the Ignite/UX server address (FQDN or IP address) and the absolute path to the software depots (without the HP-UX operating system version number). E.g.  `10.4.9.76:/var/opt/ignite/depots/GLOBAL/rsp/pre-req` can be used as `swlist -s 10.4.9.76:/var/opt/ignite/depots/GLOBAL/rsp/pre-req/*11.11*`
 
 The *-m* option defines the mail destination (more then one can be defined) which will get the report of the installation and configuration details.
 
@@ -429,8 +453,9 @@ The *-s* option defines the HPSIM server address (FQDN or IP address) which is n
 
 We can use the script with command arguments (without the *-i* option means "preview" mode) - see following example run on HP-UX 11.11. It we would have created a configuration file in front then the script name would have been sufficient.
 
-.Preview run on HP-UX 11.11
-----
+Preview run on HP-UX 11.11
+
+````
 $ ./HPSIM-Check-RSP-readiness.sh -u wbem -p -m gdhaese -d ignite-ux:/var/opt/ignite/depots/GLOBAL/irsa \
   -g se -s sim-server
 Enter the secret password for user wbem (do not forget it!)
@@ -474,17 +499,17 @@ Verifying - Password:
 ================================================================================
  ** There were no errors detected.
 ================================================================================
-----
+````
 
-There are a few points to know about this script before we dig deeper. The +HPSIM-Check-RSP-readiness.sh+ script knowns two modes of operations, a preview and an installation mode. The preview mode, which is the default, will not install nor configure the HP-UX managed node in anyway. It will create two other scripts
+There are a few points to know about this script before we dig deeper. The `HPSIM-Check-RSP-readiness.sh` script knowns two modes of operations, a preview and an installation mode. The preview mode, which is the default, will not install nor configure the HP-UX managed node in anyway. It will create two other scripts
 
-- +/tmp/RSP_readiness_$(hostname).install+
-- +/tmp/RSP_readiness_$(hostname).config+
+- `/tmp/RSP_readiness_$(hostname).install`
+- `/tmp/RSP_readiness_$(hostname).config`
 
 The above mentioned scripts can be viewed and analyzed if the proposed solution are ok. 
-The +/tmp/RSP_readiness_$(hostname).install+ script will and shall be different each time you run (or re-run) the +HPSIM-Check-RSP-readiness.sh+. We can see the content of +/tmp/RSP_readiness_$(hostname).install+ with the +cat+ command:
+The `/tmp/RSP_readiness_$(hostname).install` script will and shall be different each time you run (or re-run) the `HPSIM-Check-RSP-readiness.sh`. We can see the content of `/tmp/RSP_readiness_$(hostname).install` with the `cat` command:
 
-----
+````
 $ cat RSP_readiness_hpx172.install
 #!/usr/bin/ksh
 {
@@ -538,11 +563,11 @@ echo \# Test 21 : Configure the CIM Providers
  /usr/sbin/swconfig -vp -x autoselect_dependencies=false -x reconfigure=true -x mount_all_filesystems=false SW-DIST
  /usr/sbin/swconfig -vp -x autoselect_dependencies=false -x reconfigure=true -x mount_all_filesystems=false SFM-CORE
 } > /var/adm/install-logs/RSP_readiness_hpx172.inst-install.scriptlog 2>&1
-----
+````
 
-The second created script is +/tmp/RSP_readiness_$(hostname).config+ which contains the configuration part for WBEM and System Fault Management (SFM).
+The second created script is `/tmp/RSP_readiness_$(hostname).config` which contains the configuration part for WBEM and System Fault Management (SFM).
 
-----
+````
 $ cat RSP_readiness_hpx172.config
 #!/usr/bin/ksh
 {
@@ -721,9 +746,10 @@ cat /usr/local/etc/HPSIM_irsa.conf
 
 fi
 } > /var/adm/install-logs/RSP_readiness_hpx172.con-config.scriptlog 2>&1
-----
-If you read through the config script you will notice that the +/usr/local/etc/HPSIM_irsa.conf+ will be created if did not yet exists.
-Furthermore, in preview mode, the two scripts +/tmp/RSP_readiness_$(hostname).install+ and +/tmp/RSP_readiness_$(hostname).config+, will not be executed automatically. In installation mode these will be executed automatically. So, after running +HPSIM-Check-RSP-readiness.sh+ in preview mode (without *-i* option) the choice is yours to run the two home-brew scripts. E.g. to evaluate does it make sense or not?
+````
+
+If you read through the config script you will notice that the `/usr/local/etc/HPSIM_irsa.conf` will be created if did not yet exists.
+Furthermore, in preview mode, the two scripts `/tmp/RSP_readiness_$(hostname).install` and `/tmp/RSP_readiness_$(hostname).config`, will not be executed automatically. In installation mode these will be executed automatically. So, after running `HPSIM-Check-RSP-readiness.sh` in preview mode (without *-i* option) the choice is yours to run the two home-brew scripts. E.g. to evaluate does it make sense or not?
 
 ----
 $ /tmp/RSP_readiness_hpx172.install
@@ -750,11 +776,13 @@ The System Management HomePage timeout monitor is currently disabled.
 # Test 16 : WBEMMgmtBundle - N/A
 # Test 17 : Remote Support Adv Conf Collector
 ...
-----
-.Installation run on HP-UX 11.11
-When we feel confident that no additional patches are required (that require a reboot - Test 2), and that there are no corrupt filesets on your system present (before installing new software it is better to start with a healhty system - Test 3) we may re-run the +HPSIM-Check-RSP-readiness.sh+ script, but now with the *-i* option (installation mode):
+````
 
-----
+Installation run on HP-UX 11.11
+
+When we feel confident that no additional patches are required (that require a reboot - Test 2), and that there are no corrupt filesets on your system present (before installing new software it is better to start with a healhty system - Test 3) we may re-run the `HPSIM-Check-RSP-readiness.sh` script, but now with the *-i* option (installation mode):
+
+````
 $ ./HPSIM-Check-RSP-readiness.sh -u wbem -p -m gdhaese -d ignite-ux:/var/opt/ignite/depots/GLOBAL/irsa \
   -g se -s sim-server -i
 Enter the secret password for user wbem (do not forget it!)
@@ -839,13 +867,15 @@ ERROR:   The Execution Phase had errors.  See the above output for
 ================================================================================
  ** There were several errors detected (see details above or in the log files)
 ================================================================================
-----
-Hum, an error occured (_Failed to create the EMT database_), which means that the SFM database was not populated correctly (in our case because the database was probably not stopped at the moment of upgrade). This is a good oppertunity to introduce the HPSIM health check script +/usr/local/bin/HPSIM-HealthCheck.sh+. We can just run without additional parameters, because the configuration file _/usr/local/etc/HPSIM_irsa.conf_ was created during the execution of script +HPSIM-Check-RSP-readiness.sh+ in installation mode (option *-i*).
+````
 
-=== The /usr/local/bin/HPSIM-HealthCheck.sh script
+Hum, an error occured (*Failed to create the EMT database*), which means that the SFM database was not populated correctly (in our case because the database was probably not stopped at the moment of upgrade). This is a good oppertunity to introduce the HPSIM health check script `/usr/local/bin/HPSIM-HealthCheck.sh`. We can just run without additional parameters, because the configuration file `/usr/local/etc/HPSIM_irsa.conf` was created during the execution of script `HPSIM-Check-RSP-readiness.sh` in installation mode (option *-i*).
+
+### The /usr/local/bin/HPSIM-HealthCheck.sh script ###
+
 The purpose of the +HPSIM-HealthCheck.sh+ script is to verify if WBEM related software components are properly configured, and to check some security related issues. Furthermore, it also checks the configuration part of HPSIM at the HP-UX managed node and report the errors, if any. It will send a test event to HPSIM server and beyond via the IRSA plug-in (at the HPSIM server) to HP back-end, but only if it finds valid WBEM/WEBES subscriptions. To verify if the test event arrived you need to login on the HPSIM console and check the events tab of system you're testing (in this particular case hpx172).
 
-----
+````
 $ /usr/local/bin/HPSIM-HealthCheck.sh
   -> Reading configuration file /usr/local/etc/HPSIM_irsa.conf
  --------------------------------------------------------------------------------
@@ -916,15 +946,17 @@ An error occured while executing the request
 Feb  3 11:41:53 hpx172 cimserver[23202]: PGS10213: Provider (HPUXFCHBAIndicationProvider) is no 
 longer serving subscription (root/cimv2 HP_General Filter@1_V1, root/cimv2 localhost/CIMListener
 /EMArchiveConsumer) in namespace root/cimv2.
-----
-Above output proofs the finding we saw during the installation (or upgrade) of System Fault Management software which failed to create the EMT database as the SFMProviderModule is not running. Also, pay attention to the section _List most recent events for system hpx172_ as the output returned an error ("An error occured while executing the request"). To remediaze this we can do different things, but the easiest way it running the +/usr/local/bin/HPSIM-Upgrade-RSP.sh+
+````
 
-=== The /usr/local/bin/HPSIM-Upgrade-RSP.sh script
-The purpose of the +HPSIM-Upgrade-RSP.sh+ script to upgrade and install missing (new) components at any time, but it can also be used to fix issues introduced by the +HPSIM-Check-RSP-readiness.sh+ script as it will try to re-configure failed software (before and after any software installation). The script has also two modes (preview and installation), and a help is available (option *-h* which is very similar to the +HPSIM-Check-RSP-readiness.sh+ script). However, only the option *-i* is required as we have the configuration file (+/usr/local/etc/HPSIM_irsa.conf+) in place.
+Above output proofs the finding we saw during the installation (or upgrade) of System Fault Management software which failed to create the EMT database as the SFMProviderModule is not running. Also, pay attention to the section *List most recent events for system hpx172* as the output returned an error ("An error occured while executing the request"). To remediaze this we can do different things, but the easiest way it running the `/usr/local/bin/HPSIM-Upgrade-RSP.sh`
+
+### The /usr/local/bin/HPSIM-Upgrade-RSP.sh script ###
+
+The purpose of the `HPSIM-Upgrade-RSP.sh` script to upgrade and install missing (new) components at any time, but it can also be used to fix issues introduced by the `HPSIM-Check-RSP-readiness.sh` script as it will try to re-configure failed software (before and after any software installation). The script has also two modes (preview and installation), and a help is available (option *-h* which is very similar to the `HPSIM-Check-RSP-readiness.sh` script). However, only the option *-i* is required as we have the configuration file (`/usr/local/etc/HPSIM_irsa.conf`) in place.
 
 The output is like:
 
-----
+````
 $ ./HPSIM-Upgrade-RSP.sh -i
  ** Reading configuration file /usr/local/etc/HPSIM_irsa.conf
 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -1068,39 +1100,41 @@ for monitor dm_memory to cause generation of test event.
 ###############################################################################################
  ** There were no errors detected.
 ###############################################################################################
-----
+````
 
 After, the upgrade we better re-run the +HPSIM-HealthCheck.sh+ script again to verify if all is fine.
 
-=== The WBEMextras (HP WBEM Extras for HP-UX) depot
+### The WBEMextras (HP WBEM Extras for HP-UX) depot ###
+
 The WBEMextras software depot contains the following scripts which we already know:
 
-- +/usr/local/bin/HPSIM-HealthCheck.sh+
-- +/usr/local/bin/HPSIM-Upgrade-RSP.sh+
+- `/usr/local/bin/HPSIM-HealthCheck.sh`
+- `/usr/local/bin/HPSIM-Upgrade-RSP.sh`
 
-and, one new script +/usr/local/bin/restart_cim_sfm.sh+ which has a correseponding crontab entry:
+and, one new script `/usr/local/bin/restart_cim_sfm.sh` which has a correseponding crontab entry:
 
-----
+````
 6,21,36,51 * * * * /usr/local/bin/restart_cim_sfm.sh  > /dev/null 2>&1
-----
+````
 
-The script +/usr/local/bin/restart_cim_sfm.sh+ will do some checks on a regular basis of:
+The script `/usr/local/bin/restart_cim_sfm.sh` will do some checks on a regular basis of:
 
-- is the _WbemUser_ created? If not, then this HP-UX managed node cannot properly be discovered by the HPSIM server, and we assume that we did not yet run the script +HPSIM-Check-RSP-readiness.sh+
-- is the _WbemUser_ locked or not? If locked then unlock the user account, otherwise, the HPSIM server cannot do discovery and other inventory sweeps on the HP-UX managed node.
-- is the _WbemUser_ expired? If yes, then we need to reset this account.
+- is the *WbemUser* created? If not, then this HP-UX managed node cannot properly be discovered by the HPSIM server, and we assume that we did not yet run the script `HPSIM-Check-RSP-readiness.sh`
+- is the *WbemUser* locked or not? If locked then unlock the user account, otherwise, the HPSIM server cannot do discovery and other inventory sweeps on the HP-UX managed node.
+- is the *WbemUser* expired? If yes, then we need to reset this account.
 - is the cimserver process running on the HP-UX managed node? If not, then start it up. If yes, check if the process runs longer then 1 day, then force a restart to prevent CPU bottlenecks, unnneeded memory consumption.
 - Enable any disbaled cim provider agent process we encounter, unless the status is 'stopped' then we do not enable it again (as most likely we stopped it on purpose) 
 
-From experience we know that the +restart_cim_sfm.sh+ script increased the stability of the cimserver and cim provider agent processes on the HP-UX managed node a lot.
+From experience we know that the `restart_cim_sfm.sh` script increased the stability of the cimserver and cim provider agent processes on the HP-UX managed node a lot.
 
-== Frequently Asked Question (FAQ)
+## Frequently Asked Question (FAQ) ##
+
 
 ERROR: System _ignite-ux_ is not reachable via ping from _hpx172_::
 	Make sure _ignite-ux_ is a valid hostname and it must be reachable, otherwise, it makes no sense to use this script. Be aware, if we install from the localhost the Ignite/ux server may be named _localhost_
 
 
-== References
+## References ##
 The references used in this document are listed below.
 
 anchor:x1[1] http://www.software.hp.com[HP Software Depot Download site]
