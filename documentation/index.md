@@ -239,6 +239,8 @@ The important variables are:
 - *ENCPW=6u2CMymnCznQo* is the encrypted password of the wbem account. To create a new password use the command `openssl passwd -crypt` and copy-paste the output in the configuration file.
 - *HpsmhAdminGroup=hpsmh* contains the group name of the HP System Management Homepage. The wbem account will have this as a secondary group and as such can be used to login at the HP System Management Homepage interface with administrator rights. This useful to exchange SSL certificates between HPSMH and HPSIM.
 
+When we remove all comments from the configuration file we see something like the following:
+
 <pre>
 grep -v \# /usr/local/etc/HPSIM_irsa.conf | sed -e '/^$/d'
 WbemUser=wbem
@@ -265,8 +267,8 @@ The short usage output (*-?* option):
 
 <pre>
 ./HPSIM-Check-RSP-readiness.sh -?
-Usage: HPSIM-Check-RSP-readiness.sh [-vhpi] [-u <WbemUser>] [-g <HpsmhAdminGroup>] [-d IP:path] [-m <email1,email2>] \
-       [-c <conf file>] [-s SimServer]
+Usage: HPSIM-Check-RSP-readiness.sh [-vhpi] [-u <WbemUser>] [-g <HpsmhAdminGroup>] [-d IP:path] \
+       [-m <email1,email2>] [-c <conf file>] [-s SimServer]
 </pre>
 
 Some important knowledge you need to understand. The HPSIM WBEM communication between the HPSIM server (also known as the Central management Server, or abbreviated CMS) and the HP-UX managed node is done in a secure way via the Secure Socket Layer (SSL) and via Secure Shell (SSH). In particular when we use SSH we preferrably use a non-privelge user (non-root) and that is where the *WbemUser* is used for (the *-u* option).
@@ -726,7 +728,7 @@ Hum, an error occured (*Failed to create the EMT database*), which means that th
 
 The purpose of the +HPSIM-HealthCheck.sh+ script is to verify if WBEM related software components are properly configured, and to check some security related issues. Furthermore, it also checks the configuration part of HPSIM at the HP-UX managed node and report the errors, if any. It will send a test event to HPSIM server and beyond via the IRSA plug-in (at the HPSIM server) to HP back-end, but only if it finds valid WBEM/WEBES subscriptions. To verify if the test event arrived you need to login on the HPSIM console and check the events tab of system you're testing (in this particular case hpux01).
 
-</pre>
+<pre>
 $ /usr/local/bin/HPSIM-HealthCheck.sh
   -> Reading configuration file /usr/local/etc/HPSIM_irsa.conf
  --------------------------------------------------------------------------------
@@ -951,8 +953,8 @@ From experience we know that the `restart_cim_sfm.sh` script increased the stabi
 ## Frequently Asked Question (FAQ) ##
 
 
-ERROR: System _ignite-ux_ is not reachable via ping from _hpux01_::
-	Make sure _ignite-ux_ is a valid hostname and it must be reachable, otherwise, it makes no sense to use this script. Be aware, if we install from the localhost the Ignite/ux server may be named _localhost_
+*ERROR: System _ignite-ux_ is not reachable via ping from _hpux01_*
+</br > Make sure _ignite-ux_ is a valid hostname and it must be reachable, otherwise, it makes no sense to use this script. Be aware, if we install from the localhost the Ignite/ux server may be named _localhost_
 
 
 ## References ##
