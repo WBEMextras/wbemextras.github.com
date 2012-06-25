@@ -206,7 +206,7 @@ The `$PWD/depot` is a directory containing all the patches, but we prefer to hav
 
 <pre>
 $ swpackage -d $PWD/WBEMpatches-1123.depot -x target_type=tape -s $PWD/depot WBEMpatches-1123
-       * Tape #1: CRC-32 checksum & size: 948628547 155484160
+       * Tape #1: CRC-32 checksum &amp; size: 948628547 155484160
 $ cksum WBEMpatches-1123.depot
 948628547 155484160 WBEMpatches-1123.depot
 </pre>
@@ -267,8 +267,8 @@ The short usage output (*-?* option):
 
 <pre>
 ./HPSIM-Check-RSP-readiness.sh -?
-Usage: HPSIM-Check-RSP-readiness.sh [-vhpi] [-u <WbemUser>] [-g <HpsmhAdminGroup>] [-d IP:path] \
-       [-m <email1,email2>] [-c <conf file>] [-s SimServer]
+Usage: HPSIM-Check-RSP-readiness.sh [-vhpi] [-u $lt;WbemUser>] [-g $lt;HpsmhAdminGroup>] [-d IP:path] \
+       [-m $lt;email1,email2>] [-c $lt;conf file>] [-s SimServer]
 </pre>
 
 Some important knowledge you need to understand. The HPSIM WBEM communication between the HPSIM server (also known as the Central management Server, or abbreviated CMS) and the HP-UX managed node is done in a secure way via the Secure Socket Layer (SSL) and via Secure Shell (SSH). In particular when we use SSH we preferrably use a non-privelge user (non-root) and that is where the *WbemUser* is used for (the *-u* option).
@@ -297,11 +297,11 @@ OPTIONS
   -i
         Run HPSIM-Check-RSP-readiness.sh in "installation" mode. Be careful, this will install software!
         Default is preview mode and is harmless as nothing will be installed nor configured.
-  -u <WbemUser>
+  -u &lt;WbemUser>
         Non-priviledge account to use with IRSS/IRSA WBEM protocol (default wbem).
-  -g <HpsmhAdminGroup>
+  -g &lt;HpsmhAdminGroup>
         The HP System Management Homepage Admin Group (default hpsmh).
-  -m <email1,email2...>
+  -m &lt;email1,email2...>
         When this option is used, an  email notification is sent when an error
         occurs.  Use this option with a valid SMTP email address.
   -d [IP address or FQDN of Software Depot server]:<Absolute path to base depot>
@@ -314,19 +314,19 @@ OPTIONS
   -p
         Prompt for a password for the WBEM user (non-priviledge user).
         Default password is "hpinvent" (without the double quotes).
-  -c <path/configuration file>
+  -c &lt;path/configuration file>
         Will store a configuration file as specified which can be used when we
         run this script again. However, other scripts will benefit from this too:
         - HPSIM-HealthCheck.sh
         - HPSIM-Upgrade-RSP.sh
         - restart_cim_sfm.sh
         Default location/name is [ /usr/local/etc/HPSIM_irsa.conf ]
-  -s <HPSIM Server>
+  -s &lt;HPSIM Server>
         The HP SIM Server address (FQDN or IP address) where $(hostname) will be defined.
   -v
         Prints the version of HPSIM-Check-RSP-readiness.sh.
 EXAMPLES
-    HPSIM-Check-RSP-readiness.sh -d 10.4.9.76:/var/opt/ignite/depots/GLOBAL/rsp/pre-req
+    HPSIM-Check-RSP-readiness.sh -d 10.1.2.3:/var/opt/ignite/depots/irsa
         Run HPSIM-Check-RSP-readiness.sh in preview mode only and will give a status update.
     HPSIM-Check-RSP-readiness.sh -i
         Run HPSIM-Check-RSP-readiness.sh in installation mode and use default values for
@@ -340,7 +340,7 @@ IMPLEMENTATION
 
 The *-c* option is used to point to a configuration file which will overrule the command arguments. If we do not use the *-c* the script will create a configuration file `/usr/local/etc/HPSIM_irsa.conf` with the arguments given or with the default values. We find it a best practice to prepare a configuration file on-front to avoid mistakes and to guarantee consistency across the different scripts. We will discuss the configuration file a bit later.
 
-The *-d* option defines the path where to software is stored and it combines the Ignite/UX server address (FQDN or IP address) and the absolute path to the software depots (without the HP-UX operating system version number). E.g.  `10.4.9.76:/var/opt/ignite/depots/GLOBAL/rsp/pre-req` can be used as `swlist -s 10.4.9.76:/var/opt/ignite/depots/GLOBAL/rsp/pre-req/*11.11*`
+The *-d* option defines the path where to software is stored and it combines the Ignite/UX server address (FQDN or IP address) and the absolute path to the software depots (without the HP-UX operating system version number). E.g.  `10.1.2.3:/var/opt/ignite/depots/irsa` can be used as `swlist -s 10.1.2.3:/var/opt/ignite/depots/irsa/*11.11*`
 
 The *-m* option defines the mail destination (more then one can be defined) which will get the report of the installation and configuration details.
 
@@ -529,24 +529,24 @@ echo
 # Set System Management Homepage to start on boot and add se group to authorized users:
 echo \# Set System Management Homepage to start on boot and add se group to authorized users:
 /opt/hpsmh/lbin/hpsmh stop
-cat >/opt/hpsmh/conf.common/smhpd.xml <<EOF
-<?xml version="1.0" encoding="UTF-8"?>
-<system-management-homepage>
-<admin-group>se</admin-group>
-<operator-group></operator-group>
-<user-group></user-group>
-<allow-default-os-admin>True</allow-default-os-admin>
-<anonymous-access>False</anonymous-access>
-<localaccess-enabled>False</localaccess-enabled>
-<localaccess-type>Anonymous</localaccess-type>
-<trustmode>TrustByCert</trustmode>
-<xenamelist></xenamelist>
-<ip-restricted-logins>False</ip-restricted-logins>
-<ip-restricted-include></ip-restricted-include>
-<ip-restricted-exclude></ip-restricted-exclude>
-<ip-binding>False</ip-binding>
-<ip-binding-list></ip-binding-list>
-</system-management-homepage>
+cat >/opt/hpsmh/conf.common/smhpd.xml &lt;&lt;EOF
+&lt;?xml version="1.0" encoding="UTF-8"?>
+&lt;system-management-homepage>
+&lt;admin-group>se&lt;/admin-group>
+&lt;operator-group>&lt;/operator-group>
+&lt;user-group>&lt;/user-group>
+&lt;allow-default-os-admin>True&lt;/allow-default-os-admin>
+&lt;anonymous-access>False&lt;/anonymous-access>
+&lt;localaccess-enabled>False&lt;/localaccess-enabled>
+&lt;localaccess-type>Anonymous&lt;/localaccess-type>
+&lt;trustmode>TrustByCert&lt;/trustmode>
+&lt;xenamelist>&lt;/xenamelist>
+&lt;ip-restricted-logins>False&lt;/ip-restricted-logins>
+&lt;ip-restricted-include>&lt;/ip-restricted-include>
+&lt;ip-restricted-exclude>&lt;/ip-restricted-exclude>
+&lt;ip-binding>False&lt;/ip-binding>
+&lt;ip-binding-list>&lt;/ip-binding-list>
+&lt;/system-management-homepage>
 EOF
 chmod 444 /opt/hpsmh/conf.common/smhpd.xml
 /opt/hpsmh/bin/smhstartconfig -a off -b on
@@ -556,8 +556,8 @@ chmod 444 /opt/hpsmh/conf.common/smhpd.xml
 if [ ! -f /usr/local/etc/HPSIM_irsa.conf ]; then
 echo \# Writing a fresh /usr/local/etc/HPSIM_irsa.conf file, which contains:
 echo
-[ ! -d /usr/local/etc ] && mkdir -p -m 755 /usr/local/etc
-cat > /usr/local/etc/HPSIM_irsa.conf <<EOF
+[ ! -d /usr/local/etc ] &amp;&amp; mkdir -p -m 755 /usr/local/etc
+cat > /usr/local/etc/HPSIM_irsa.conf &lt;&lt;EOF
 # Configuration file is read by (if available)
 #       - HPSIM-Check-RSP-readiness.sh
 #       - HPSIM-Upgrade-RSP.sh
@@ -612,7 +612,7 @@ HpsmhAdminGroup="hpsmh"
 EOF
 cat /usr/local/etc/HPSIM_irsa.conf
 fi
-} > /var/adm/install-logs/RSP_readiness_hpux01.con-config.scriptlog 2>&1
+} > /var/adm/install-logs/RSP_readiness_hpux01.con-config.scriptlog 2>&amp;1
 </pre>
 
 If you read through the config script you will notice that the `/usr/local/etc/HPSIM_irsa.conf` will be created if did not yet exists.
@@ -726,7 +726,7 @@ Hum, an error occured (*Failed to create the EMT database*), which means that th
 
 ### The /usr/local/bin/HPSIM-HealthCheck.sh script ###
 
-The purpose of the +HPSIM-HealthCheck.sh+ script is to verify if WBEM related software components are properly configured, and to check some security related issues. Furthermore, it also checks the configuration part of HPSIM at the HP-UX managed node and report the errors, if any. It will send a test event to HPSIM server and beyond via the IRSA plug-in (at the HPSIM server) to HP back-end, but only if it finds valid WBEM/WEBES subscriptions. To verify if the test event arrived you need to login on the HPSIM console and check the events tab of system you're testing (in this particular case hpux01).
+The purpose of the `HPSIM-HealthCheck.sh` script is to verify if WBEM related software components are properly configured, and to check some security related issues. Furthermore, it also checks the configuration part of HPSIM at the HP-UX managed node and report the errors, if any. It will send a test event to HPSIM server and beyond via the IRSA plug-in (at the HPSIM server) to HP back-end, but only if it finds valid WBEM/WEBES subscriptions. To verify if the test event arrived you need to login on the HPSIM console and check the events tab of system you're testing (in this particular case hpux01).
 
 <pre>
 $ /usr/local/bin/HPSIM-HealthCheck.sh
