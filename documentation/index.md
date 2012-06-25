@@ -267,8 +267,8 @@ The short usage output (*-?* option):
 
 <pre>
 ./HPSIM-Check-RSP-readiness.sh -?
-Usage: HPSIM-Check-RSP-readiness.sh [-vhpi] [-u $lt;WbemUser>] [-g $lt;HpsmhAdminGroup>] [-d IP:path] \
-       [-m $lt;email1,email2>] [-c $lt;conf file>] [-s SimServer]
+Usage: HPSIM-Check-RSP-readiness.sh [-vhpi] [-u WbemUser] [-g HpsmhAdminGroup] [-d IP:path] \
+       [-m email1,email2] [-c conf-file>] [-s SimServer]
 </pre>
 
 Some important knowledge you need to understand. The HPSIM WBEM communication between the HPSIM server (also known as the Central management Server, or abbreviated CMS) and the HP-UX managed node is done in a secure way via the Secure Socket Layer (SSL) and via Secure Shell (SSH). In particular when we use SSH we preferrably use a non-privelge user (non-root) and that is where the *WbemUser* is used for (the *-u* option).
@@ -297,14 +297,14 @@ OPTIONS
   -i
         Run HPSIM-Check-RSP-readiness.sh in "installation" mode. Be careful, this will install software!
         Default is preview mode and is harmless as nothing will be installed nor configured.
-  -u &lt;WbemUser>
+  -u WbemUser
         Non-priviledge account to use with IRSS/IRSA WBEM protocol (default wbem).
-  -g &lt;HpsmhAdminGroup>
+  -g HpsmhAdminGroup
         The HP System Management Homepage Admin Group (default hpsmh).
-  -m &lt;email1,email2...>
+  -m email1,email2...
         When this option is used, an  email notification is sent when an error
         occurs.  Use this option with a valid SMTP email address.
-  -d [IP address or FQDN of Software Depot server]:<Absolute path to base depot>
+  -d [IP address or FQDN of Software Depot server]:/Absolute/path/to/base/depot
         Example: -d 10.0.0.1:/var/opt/ignite/depots/GLOBAL/rsp/pre-req
         The actual software depots are then located under:
           B.11.11 : /var/opt/ignite/depots/GLOBAL/rsp/pre-req/11.11
@@ -314,14 +314,14 @@ OPTIONS
   -p
         Prompt for a password for the WBEM user (non-priviledge user).
         Default password is "hpinvent" (without the double quotes).
-  -c &lt;path/configuration file>
+  -c path/configuration-file
         Will store a configuration file as specified which can be used when we
         run this script again. However, other scripts will benefit from this too:
         - HPSIM-HealthCheck.sh
         - HPSIM-Upgrade-RSP.sh
         - restart_cim_sfm.sh
         Default location/name is [ /usr/local/etc/HPSIM_irsa.conf ]
-  -s &lt;HPSIM Server>
+  -s HPSIM Server
         The HP SIM Server address (FQDN or IP address) where $(hostname) will be defined.
   -v
         Prints the version of HPSIM-Check-RSP-readiness.sh.
@@ -480,8 +480,8 @@ echo
 # check special wbem account (wbem) for monitoring with HP SIM
 # grep ^wbem /etc/passwd
 echo \# grep ^wbem /etc/passwd
-grep "^wbem" /etc/passwd 2>&1
-[ $? -ne 0 ] && {
+grep "^wbem" /etc/passwd 2>&amp;1
+[ $? -ne 0 ] &amp;&amp; {
         # Account wbem does not exist - creating one
         /usr/sbin/useradd -g users -G se wbem
         /usr/sam/lbin/usermod.sam -F -p ARbwd5UKVpJQs wbem
