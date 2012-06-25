@@ -953,8 +953,8 @@ From experience we know that the `restart_cim_sfm.sh` script increased the stabi
 ## Frequently Asked Question (FAQ) ##
 
 
-*ERROR: System _ignite-ux_ is not reachable via ping from _hpux01_*
-</br > Make sure _ignite-ux_ is a valid hostname and it must be reachable, otherwise, it makes no sense to use this script. Be aware, if we install from the localhost the Ignite/ux server may be named _localhost_
+*ERROR: System _ignite-ux_ is not reachable via ping from _hpux01_* <br />
+ Make sure _ignite-ux_ is a valid hostname and it must be reachable, otherwise, it makes no sense to use this script. Be aware, if we install from the localhost the Ignite/ux server may be named _localhost_
 
 
 ## References ##
