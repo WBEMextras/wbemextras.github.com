@@ -33,7 +33,7 @@ It would be nice that the collection of software depots could be made available 
 
 The versions of the software depots can vary over time. This list was made in January 2012.
 
-````
+<pre>
   B9073BA                               B.11.11.09.02.00.07	HP-UX iCOD Instant Capacity (iCAP)
   EventMonitoring                       A.04.20.11.05		Event Monitoring Service
   FCProvider                            B.11.11.08		CIM/WBEM Provider for Fibre Channel HBAs
@@ -56,7 +56,7 @@ The versions of the software depots can vary over time. This list was made in Ja
   vParProvider                          B.11.11.01.06		vPar Provider - HP-UX
   EMS-KRMonitor                         A.11.11.05		EMS Kernel Resource Monitor
   WBEMextras                            A.01.00.04		HP WBEM Extras for HP-UX
-````
+</pre>
 
 The above list contains two depots that are not available on the HP Software Depot site:
 
