@@ -932,6 +932,7 @@ After, the upgrade we better re-run the `HPSIM-HealthCheck.sh` script again to v
 If you migrate a managed node from one HPSIM server to another and configure it correctly with the new SIM server then you will have multiple HPSIM/HPWEBES subscriptions. To cleanup old subscription we provided a script `cleanup_subscriptions.sh`.
 
 The usage is quite simple:
+
 <pre>
 /usr/local/bin/cleanup_subscriptions.sh -h
 Usage: cleanup_subscriptions.sh [-s HPSIM-Server] [-m <mail1,mail2>] [-c Config file] [-hd]
@@ -947,7 +948,7 @@ cleanup_subscriptions.sh run without any switch will use the following default v
 Purpose is to delete obsolete HPSIM and WEBES subscriptions on this system.
 </pre>
 
-The option `-d` is very helpful to run it in debug mode, then you will see what it will try to do (if you run the script with `-d` argument).
+The option `-d` is very helpful to run it in debug (preview) mode, then you will see what it will try to do (if you run the script without the `-d` argument).
 
 ### The WBEMextras (HP WBEM Extras for HP-UX) depot ###
 
@@ -979,6 +980,8 @@ From experience we know that the `restart_cim_sfm.sh` script increased the stabi
 *ERROR: System _ignite-ux_ is not reachable via ping from _hpux01_* <br />
  Make sure _ignite-ux_ is a valid hostname and it must be reachable, otherwise, it makes no sense to use this script. Be aware, if we install from the localhost the Ignite/ux server may be named _localhost_
 
+*Question: Can I download the software depot as-is?  <br />
+ Sure you can, from the [download section of github.com](https://github.com/WBEMextras/WBEMextras/downloads/)
 
 ## References ##
 The references used in this document are listed below.
