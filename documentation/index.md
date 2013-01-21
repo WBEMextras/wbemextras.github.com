@@ -935,7 +935,7 @@ The usage is quite simple:
 
 <pre>
 /usr/local/bin/cleanup_subscriptions.sh -h
-Usage: cleanup_subscriptions.sh [-s HPSIM-Server] [-m <mail1,mail2>] [-c Config file] [-hd]
+Usage: cleanup_subscriptions.sh [-s HPSIM-Server] [-m mail1,mail2] [-c Config file] [-hd]
 -s: The HPSIM server (IP address or FQDN).
 -m: The mail recipients seperated by comma.
 -c: The config file for arguments.
@@ -974,14 +974,17 @@ The script `/usr/local/bin/restart_cim_sfm.sh` will do some checks on a regular 
 
 From experience we know that the `restart_cim_sfm.sh` script increased the stability of the cimserver and cim provider agent processes on the HP-UX managed node a lot.
 
+
+
 ## Frequently Asked Question (FAQ) ##
 
 
 *ERROR: System _ignite-ux_ is not reachable via ping from _hpux01_* <br />
- Make sure _ignite-ux_ is a valid hostname and it must be reachable, otherwise, it makes no sense to use this script. Be aware, if we install from the localhost the Ignite/ux server may be named _localhost_
+ Make sure _ignite-ux_ is a valid hostname and it must be reachable, otherwise, it makes no sense to use this script. Be aware, if we install from the localhost the Ignite/ux server may be named _localhost_ 
 
 *Question: Can I download the software depot as-is?  <br />
  Sure you can, from the [download section of github.com](https://github.com/WBEMextras/WBEMextras/downloads/)
+
 
 ## References ##
 The references used in this document are listed below.
