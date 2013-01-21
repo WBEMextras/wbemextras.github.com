@@ -253,7 +253,7 @@ baseDepo=/var/opt/ignite/depots/irsa
 ENCPW="6u2CMymnCznQo"
 </pre>
 
-## The SIM Installation and Loggings (similar) Scripts ##
+## The SIM Installation and Loggings (wbemextras) Scripts ##
 
 The scripts were developed to install, configure, upgrade and check the HPSIM IRSA related software on the HP-UX managed nodes. See it as an aid in getting these installation and configuration tasks done in a simple way. The only thing we need are the software depots which we already have installed (or copied) on our central Ignite/UX server and the first script `HPSIM-Check-RSP-readiness.sh` and its accompying configuration file (albeit not required to have). 
 
@@ -927,12 +927,35 @@ for monitor dm_memory to cause generation of test event.
 
 After, the upgrade we better re-run the `HPSIM-HealthCheck.sh` script again to verify if all is fine.
 
+### The /usr/local/bin/cleanup_subscriptions.sh script ###
+
+If you migrate a managed node from one HPSIM server to another and configure it correctly with the new SIM server then you will have multiple HPSIM/HPWEBES subscriptions. To cleanup old subscription we provided a script `cleanup_subscriptions.sh`.
+
+The usage is quite simple:
+<pre>
+/usr/local/bin/cleanup_subscriptions.sh -h
+Usage: cleanup_subscriptions.sh [-s HPSIM-Server] [-m <mail1,mail2>] [-c Config file] [-hd]
+-s: The HPSIM server (IP address or FQDN).
+-m: The mail recipients seperated by comma.
+-c: The config file for arguments.
+-h: This help message.
+-d: Debug mode (safe mode)
+
+cleanup_subscriptions.sh run without any switch will use the following default values:
+-s sim-server -m root
+
+Purpose is to delete obsolete HPSIM and WEBES subscriptions on this system.
+</pre>
+
+The option `-d` is very helpful to run it in debug mode, then you will see what it will try to do (if you run the script with `-d` argument).
+
 ### The WBEMextras (HP WBEM Extras for HP-UX) depot ###
 
 The WBEMextras software depot contains the following scripts which we already know:
 
 - `/usr/local/bin/HPSIM-HealthCheck.sh`
 - `/usr/local/bin/HPSIM-Upgrade-RSP.sh`
+- `/usr/local/bin/cleanup_subscriptions.sh`
 
 and, one new script `/usr/local/bin/restart_cim_sfm.sh` which has a correseponding crontab entry:
 
