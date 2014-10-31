@@ -4,8 +4,8 @@ title: WBEMextras download
 ---
 
 ## Download stable releases ##
-The various stable release are available from the
-[Github Downloads](https://github.com/WBEMextras/WBEMextras/downloads) page.
+The various stable releases are available from the
+[IT3 Consultants Project wbemextras](http://www.it3.be/projects/wbemextras/) page.
 
 
 ## Download development snapshot ##
